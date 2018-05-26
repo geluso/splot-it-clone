@@ -1,4 +1,4 @@
 {
   presets: ['env', 'react', 'stage-0'],
-  plugins: ['transform-class-properties']
+  plugins: ['autobind-class-methods', 'transform-class-properties']
 }
