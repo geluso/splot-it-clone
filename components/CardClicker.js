@@ -6,11 +6,17 @@ class CardClicker extends Component {
   state = {currentCard: 0};
 
   dec = () => {
-    this.setState({currentCard: this.state.currentCard - 1});
+    let currentCard = this.state.currentCard - 1;
+    if (currentCard < 0) {
+      currentCard = Object.keys(deck).length - 1;
+    }
+    this.setState({currentCard});
   }
 
   inc = () => {
-    this.setState({currentCard: this.state.currentCard + 1});
+    let currentCard = this.state.currentCard + 1;
+    currentCard %= Object.keys(deck).length;
+    this.setState({currentCard});
   }
 
   card = () => {
