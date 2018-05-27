@@ -3,7 +3,10 @@ import card01 from '../assets/raw-photos/01.jpg';
 import deck from './CardList';
 
 class CardClicker extends Component {
-  state = {currentCard: 0};
+  state = {
+    currentCard: 0,
+    clicks: []
+  };
 
   dec = () => {
     let currentCard = this.state.currentCard - 1;
@@ -26,8 +29,16 @@ class CardClicker extends Component {
     }
     card = 'card' + card;
     let img = deck[card];
-    console.log('img', img);
     return img;
+  }
+
+  handleImgClick = (ev) => {
+    let percentX = ev.nativeEvent.offsetX / ev.target.width;
+    let percentY = ev.nativeEvent.offsetY / ev.target.height;
+    console.log(percentX, percentY);
+    let click = {percentX, percentY, card: this.state.currentCard};
+    let clicks = [...this.state.clicks, click];
+    this.setState({clicks});
   }
 
   render() {
@@ -36,13 +47,20 @@ class CardClicker extends Component {
         {this.card()} {' '} {this.state.currentCard}
       </p>
       <div>
-        <img src={this.card()} />
+        <img src={this.card()} onClick={this.handleImgClick} />
       </div>
       <div className="pagination-controls">
         <button onClick={this.dec}>prev</button>
         <button onClick={this.inc}>next</button>
       </div>
 
+      {this.state.clicks.map((click, key) => {
+        return <div key={key}>
+          {click.card}{' '}
+          {click.percentX}{' '}
+          {click.percentY}
+        </div>
+      })}
     </Fragment>
   }
 }
